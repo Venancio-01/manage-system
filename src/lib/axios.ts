@@ -27,16 +27,17 @@ axios.interceptors.request.use(authRequestInterceptor, error => {
 })
 axios.interceptors.response.use(
   response => {
-    return response.data
+    return response
   },
   error => {
     return Promise.reject(error)
   }
 )
 
-export const request = async <T = any>(config: AxiosRequestConfig): Promise<ResponseType<T>> => {
+export const request = async <T = unknown>(config: AxiosRequestConfig): Promise<ResponseType<T>> => {
   try {
     const { data } = await axios.request<ResponseType<T>>(config)
+    console.log('🚀 ~ file: axios.ts:40 ~ request ~ data:', data)
     data.code === 0
       ? console.log(data.msg) // 成功消息提示
       : console.error(data.msg) // 失败消息提示
@@ -47,7 +48,7 @@ export const request = async <T = any>(config: AxiosRequestConfig): Promise<Resp
     return {
       code: -1,
       msg: message,
-      data: null as any
+      data: null
     }
   }
 }

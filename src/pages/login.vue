@@ -10,7 +10,7 @@
         @finish="onFinish"
         @finishFailed="onFinishFailed"
       >
-        <a-form-item label="Username" name="username" :rules="[{ required: true, message: 'Please input your username!' }]">
+        <a-form-item label="Username" name="userName" :rules="[{ required: true, message: 'Please input your username!' }]">
           <a-input v-model:value="formState.userName" />
         </a-form-item>
 
@@ -28,6 +28,9 @@
 
 <script lang="ts" setup>
 import { login, LoginParams } from '@/api/login'
+import storage from '@/utils/storage'
+
+const router = useRouter()
 
 const formState = reactive<LoginParams>({
   userName: '',
@@ -35,11 +38,13 @@ const formState = reactive<LoginParams>({
 })
 
 const onFinish = async () => {
-  const result = await login(formState)
-  console.log('🚀 ~ file: login.vue:31 ~ handleSubmit ~ result:', result)
+  const { msg, data } = await login(formState)
+  storage.setToken(data)
+  console.log(msg, 'msg')
+  console.log('🚀 ~ file: login.vue:31 ~ handleSubmit ~ result:', data)
 }
 
-const onFinishFailed = (errorInfo: any) => {
+const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo)
 }
 </script>

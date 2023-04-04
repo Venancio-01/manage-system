@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     component: Login
-  },
+  }
 ]
 
 const router = createRouter({
@@ -19,10 +19,12 @@ const router = createRouter({
   routes //
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach(to => {
   if (to.path === '/login') return true
   if (localStorage.getItem('token')) return true
-  return false
+  else {
+    return { path: '/login' }
+  }
 })
 
 export default router

@@ -15,7 +15,7 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      imports: ['vue', 'pinia', 'vue-router'],
+      imports: ['vue', 'pinia', 'vue-router', '@vueuse/core'],
       eslintrc: {
         enabled: false,
         filepath: './.eslintrc-auto-import.json'

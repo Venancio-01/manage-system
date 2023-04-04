@@ -6,7 +6,7 @@ export type LoginParams = {
 }
 
 export const login = (params: LoginParams) => {
-  return request({
+  return request<string>({
     url: '/login',
     method: 'POST',
     data: params
