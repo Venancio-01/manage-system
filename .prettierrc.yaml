@@ -1,0 +1,47 @@
+# printWidth: 一行最大字符数，超出自动换行
+printWidth: 140
+
+# tabWidth: 每个制表符宽度，默认为 2
+tabWidth: 2
+
+# useTabs: 是否使用制表符代替空格缩进，默认为 false
+useTabs: false
+
+# semi: 是否在语句末尾加分号
+semi: false
+
+# singleQuote: 是否使用单引号
+singleQuote: true
+
+# quoteProps: 对象属性名是否使用引号
+quoteProps: 'as-needed'
+
+# jsxSingleQuote: JSX 属性值是否使用单引号
+jsxSingleQuote: false
+
+# trailingComma: 多行时尾随逗号
+trailingComma: 'none'
+
+# bracketSpacing: 对象中括号内是否需要空格
+bracketSpacing: true
+
+# jsxBracketSameLine: 是否将 JSX 的闭合标签放在最后一行
+jsxBracketSameLine: false
+
+# arrowParens: 单个参数箭头函数是否加上括号
+arrowParens: 'avoid'
+
+# proseWrap: 是否将 Markdown 中的文本换行
+proseWrap: 'preserve'
+
+# htmlWhitespaceSensitivity: 指定 HTML 文件的空格敏感度
+htmlWhitespaceSensitivity: 'css'
+
+# vueIndentScriptAndStyle: 是否缩进 Vue 文件中的 <script> 和 <style> 标签
+vueIndentScriptAndStyle: false
+
+# endOfLine: 换行符使用 LF、CRLF 或 CR
+endOfLine: 'auto'
+
+# embeddedLanguageFormatting: 是否格式化嵌入式语言（如 TypeScript、JavaScript）
+embeddedLanguageFormatting: 'auto'
