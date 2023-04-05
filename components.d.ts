@@ -10,14 +10,21 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
-    ACheckbox: typeof import('ant-design-vue/es')['Checkbox']
+    ADatePicker: typeof import('ant-design-vue/es')['DatePicker']
     AForm: typeof import('ant-design-vue/es')['Form']
     AFormItem: typeof import('ant-design-vue/es')['FormItem']
     AInput: typeof import('ant-design-vue/es')['Input']
     AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
+    AModal: typeof import('ant-design-vue/es')['Modal']
+    ASelect: typeof import('ant-design-vue/es')['Select']
+    ATable: typeof import('ant-design-vue/es')['Table']
+    ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    BasePanel: typeof import('./src/components/BasePanel.vue')['default']
+    ChinaMap: typeof import('./src/components/ChinaMap.vue')['default']
     Head: typeof import('./src/components/Head.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    ListMenu: typeof import('./src/components/ListMenu.vue')['default']
     MainLayout: typeof import('./src/components/Layout/MainLayout.vue')['default']
+    NavButton: typeof import('./src/components/NavButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

@@ -10,16 +10,16 @@
         @finish="onFinish"
         @finishFailed="onFinishFailed"
       >
-        <a-form-item label="Username" name="userName" :rules="[{ required: true, message: 'Please input your username!' }]">
+        <a-form-item label="用户名" name="userName" :rules="[{ required: true, message: 'Please input your username!' }]">
           <a-input v-model:value="formState.userName" />
         </a-form-item>
 
-        <a-form-item label="Password" name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
+        <a-form-item label="密码" name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
           <a-input-password v-model:value="formState.password" />
         </a-form-item>
 
         <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-          <a-button type="primary" html-type="submit">Submit</a-button>
+          <a-button type="primary" html-type="submit">登录</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -29,6 +29,7 @@
 <script lang="ts" setup>
 import { login, LoginParams } from '@/api/login'
 import storage from '@/utils/storage'
+import { message } from 'ant-design-vue'
 
 const router = useRouter()
 
@@ -38,10 +39,13 @@ const formState = reactive<LoginParams>({
 })
 
 const onFinish = async () => {
-  const { msg, data } = await login(formState)
+  const { code, data, msg } = await login(formState)
+  const success = code === 0
+  if (!success) {
+    return message.error(msg)
+  }
   storage.setToken(data)
-  console.log(msg, 'msg')
-  console.log('🚀 ~ file: login.vue:31 ~ handleSubmit ~ result:', data)
+  router.push('/')
 }
 
 const onFinishFailed = errorInfo => {

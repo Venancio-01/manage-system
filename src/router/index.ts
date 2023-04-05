@@ -1,12 +1,25 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Index from '@/pages/index.vue'
 import Login from '@/pages/login.vue'
+import Home from '@/pages/home.vue'
+import List from '@/pages/list.vue'
+import Outing from '@/pages/outing/index.vue'
 
 const routes: RouteRecordRaw[] = [
-  { path: '/', redirect: '/index' },
+  { path: '/', redirect: '/home' },
   {
-    path: '/index',
-    component: Index
+    path: '/home',
+    component: Home
+  },
+  {
+    path: '/list',
+    component: List,
+    redirect: '/list/outing',
+    children: [
+      {
+        path: 'outing',
+        component: Outing
+      }
+    ]
   },
   {
     path: '/login',
@@ -16,15 +29,15 @@ const routes: RouteRecordRaw[] = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes //
+  routes
 })
 
-router.beforeEach(to => {
-  if (to.path === '/login') return true
-  if (localStorage.getItem('token')) return true
-  else {
-    return { path: '/login' }
-  }
-})
+// router.beforeEach(to => {
+//   if (to.path === '/login') return true
+//   if (localStorage.getItem('token')) return true
+//   else {
+//     return { path: '/login' }
+//   }
+// })
 
 export default router
