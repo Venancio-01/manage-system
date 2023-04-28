@@ -1,8 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Login from '@/pages/login.vue'
 import Home from '@/pages/home.vue'
-import List from '@/pages/list.vue'
-import Outing from '@/pages/outing/index.vue'
+import storage from '@/utils/storage'
 
 const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/home' },
@@ -11,19 +10,46 @@ const routes: RouteRecordRaw[] = [
     component: Home
   },
   {
-    path: '/list',
-    component: List,
-    redirect: '/list/outing',
+    path: '/login',
+    component: Login
+  },
+  {
+    path: '/outing',
+    redirect: '/outing/list',
+    component: () => import('@/pages/outing/index.vue'),
     children: [
       {
-        path: 'outing',
-        component: Outing
+        path: 'list',
+        component: () => import('@/pages/outing/list.vue')
+      },
+      {
+        path: 'statistics',
+        component: () => import('@/pages/outing/statistics.vue')
       }
     ]
   },
   {
-    path: '/login',
-    component: Login
+    path: '/accident',
+    component: () => import('@/pages/accident/list.vue')
+  },
+  {
+    path: '/discipline',
+    component: () => import('@/pages/discipline/index.vue'),
+    redirect: '/discipline/list',
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/pages/discipline/list.vue')
+      },
+      {
+        path: 'statistics',
+        component: () => import('@/pages/discipline/statistics.vue')
+      }
+    ]
+  },
+  {
+    path: '/policy',
+    component: () => import('@/pages/policy/list.vue')
   }
 ]
 
@@ -32,12 +58,12 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach(to => {
-//   if (to.path === '/login') return true
-//   if (localStorage.getItem('token')) return true
-//   else {
-//     return { path: '/login' }
-//   }
-// })
+router.beforeEach(to => {
+  if (to.path === '/login') return true
+  if (storage.getToken()) return true
+  else {
+    return { path: '/login' }
+  }
+})
 
 export default router

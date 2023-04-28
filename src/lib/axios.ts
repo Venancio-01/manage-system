@@ -1,14 +1,9 @@
 import Axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 import { message } from 'ant-design-vue'
-
 import { API_URL } from '@/config'
 import storage from '@/utils/storage'
-
-type ResponseType<T = any> = {
-  code: number
-  msg: string
-  data: T
-}
+import { ResponseType } from '@/types'
+import { debounce } from 'lodash-es'
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const token = storage.getToken()
@@ -34,11 +29,46 @@ axios.interceptors.response.use(
   },
   error => {
     message.error(error.message)
+    // handleDebounceErrorMsg(error.message)
     return Promise.reject(error)
   }
 )
 
-export const request = async <T = unknown>(config: AxiosRequestConfig): Promise<ResponseType<T>> => {
-  const response = await axios.request<ResponseType<T>>(config)
+// const handleDebounceErrorMsg = debounce(
+//   message => {
+//     message.error(message)
+//   },
+//   300,
+//   {
+//     leading: true
+//   }
+// )
+
+// const handleLoginInvalidation = debounce(
+//   data => {
+//     message.error('登录已过期，请重新登录')
+//     storage.clearToken()
+//     window.location.href = '/#/login'
+//     return Promise.reject(data)
+//   },
+//   300,
+//   {
+//     leading: true
+//   }
+// )
+
+export const request = async <T = unknown, D = ResponseType<T>>(config: AxiosRequestConfig): Promise<D> => {
+  const response = await axios.request<D>(config)
+  const data = response.data
+  const code = data.code
+
+  // if (code === 511) handleLoginInvalidation(data)
+  if (code === 511) {
+    message.error('登录已过期，请重新登录')
+    storage.clearToken()
+    window.location.href = '/#/login'
+    return Promise.reject(data)
+  }
+
   return response.data
 }

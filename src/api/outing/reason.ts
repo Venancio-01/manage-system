@@ -1,14 +1,10 @@
 import { request } from '@/lib/axios'
-
-export type Reason = {
-  id: number
-  name: string
-}
+import { IdNameType } from '@/types'
 
 export const getReasons = (id?: string) => {
-  return request<Reason[]>({
+  return request<IdNameType[]>({
     url: '/out/getReason',
     method: 'get',
-    data: id
+    params: { id }
   })
 }

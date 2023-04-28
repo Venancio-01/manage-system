@@ -1,14 +1,12 @@
 import { request } from '@/lib/axios'
-
-export type Region = {
-  id: string
-  name: string
-}
+import { IdNameType } from '@/types'
 
 export const getRegions = (id?: string) => {
-  return request<Region[]>({
+  return request<IdNameType[]>({
     url: '/out/getRegion',
-    method: 'post',
-    data: id
+    method: 'get',
+    params: {
+      id
+    }
   })
 }

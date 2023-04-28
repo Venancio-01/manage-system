@@ -7,12 +7,12 @@
 <script lang="ts" setup>
 const menus = ref([
   {
-    name: '本单位在外情况',
-    path: '/outing/list'
+    name: '本单位违纪情况',
+    path: '/discipline/list'
   },
   {
-    name: '在外情况统计',
-    path: '/outing/statistics'
+    name: '违纪统计',
+    path: '/discipline/statistics'
   }
 ])
 </script>
