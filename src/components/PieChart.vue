@@ -18,6 +18,9 @@ const colors = ['#8be5f2', '#72bdcf', '#5a99ad', '#298ff4']
 
 const option = computed(() => {
   return {
+    tooltip: {
+      show: true
+    },
     series: [
       {
         type: 'pie',

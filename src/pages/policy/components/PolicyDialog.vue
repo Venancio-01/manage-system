@@ -24,7 +24,7 @@
       <a-form-item label="上传文件" name="files" :rules="[{ type: 'array', required: true, message: '请选择文件' }]">
         <div v-if="isView" class="">
           <div v-for="(item, index) in returnedFiles" :key="index" class="mb-2">
-            <a :href="item.path" target="_blank">{{ item.fileName }}</a>
+            <span class="cursor-pointer text-primary" @click="handleDownload(item)"> {{ item.fileName }}</span>
           </div>
         </div>
         <a-upload
@@ -40,6 +40,8 @@
             <UploadOutlined></UploadOutlined>
             选择文件
           </a-button>
+
+          <span class="ml-4 text-gray-500 text-[14px]">单个文件最大500m </span>
         </a-upload>
       </a-form-item>
     </a-form>
@@ -47,7 +49,7 @@
     <template #footer>
       <div class="flex justify-end">
         <a-button @click="handleCancel">取消</a-button>
-        <a-button v-if="!isView" type="primary" @click="handleConfirm">确定</a-button>
+        <a-button v-if="!isView" type="primary" :loading="loading" @click="handleConfirm">确定</a-button>
       </div>
     </template>
   </a-modal>
@@ -60,6 +62,7 @@ import type { UploadProps } from 'ant-design-vue'
 import { getPolicyDetail, PolicyRecord, savePolicy, SavePolicyParams, MsdFile } from '@/api/policy'
 import { UploadOutlined } from '@ant-design/icons-vue'
 import { MediaType } from '@/types'
+import { download } from '@/lib/axios'
 
 type Props = {
   visible: boolean
@@ -123,8 +126,10 @@ const handleSave = async () => {
   return await savePolicy(formState)
 }
 
+const loading = ref(false)
 const handleConfirm = () => {
   formRef.value.validate().then(async () => {
+    loading.value = true
     const { code, msg } = await handleSave()
     const success = code === 0
     if (success) {
@@ -135,6 +140,8 @@ const handleConfirm = () => {
     } else {
       message.error(msg)
     }
+
+    loading.value = false
   })
 }
 
@@ -146,6 +153,10 @@ const handleReset = () => {
 
 const handleCancel = () => {
   show.value = false
+}
+
+const handleDownload = async item => {
+  await download(item.path, item.fileName)
 }
 
 watch(show, val => {

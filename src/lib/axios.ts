@@ -1,6 +1,6 @@
 import Axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 import { message } from 'ant-design-vue'
-import { API_URL } from '@/config'
+import { API_URL, FILE_URL } from '@/config'
 import storage from '@/utils/storage'
 import { ResponseType } from '@/types'
 import { debounce } from 'lodash-es'
@@ -15,8 +15,7 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
 }
 
 export const axios = Axios.create({
-  baseURL: API_URL,
-  timeout: 1000 * 10,
+  timeout: 1000 * 300,
   withCredentials: false
 })
 
@@ -58,7 +57,11 @@ axios.interceptors.response.use(
 // )
 
 export const request = async <T = unknown, D = ResponseType<T>>(config: AxiosRequestConfig): Promise<D> => {
-  const response = await axios.request<D>(config)
+  const parseConfig = {
+    ...config,
+    url: API_URL + config.url
+  }
+  const response = await axios.request<D>(parseConfig)
   const data = response.data
   const code = data.code
 
@@ -71,4 +74,20 @@ export const request = async <T = unknown, D = ResponseType<T>>(config: AxiosReq
   }
 
   return response.data
+}
+
+export const download = async (url: string, fileName: string) => {
+  const response = await axios.request({
+    url: FILE_URL + url,
+    method: 'GET',
+    responseType: 'blob' // 设置返回数据类型为 blob
+  })
+
+  // 创建一个 a 标签，用于下载文件
+  const fileUrl = window.URL.createObjectURL(new Blob([response.data]))
+  const link = document.createElement('a')
+  link.href = fileUrl
+  link.setAttribute('download', fileName) // 设置下载文件的文件名
+  document.body.appendChild(link)
+  link.click()
 }

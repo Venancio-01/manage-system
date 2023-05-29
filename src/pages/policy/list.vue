@@ -142,6 +142,8 @@ const handleDelete = async (record: PolicyRecord) => {
 }
 
 const handleDialogClose = () => {
+  currentSelectData.value = undefined
+  isView.value = false
   visible.value = false
 }
 

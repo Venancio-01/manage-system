@@ -22,6 +22,9 @@ const colors = ['#77e6b2', '#d57012', '#fed002', '#29b0ed']
 
 const option = computed(() => {
   return {
+    tooltip: {
+      trigger: 'axis'
+    },
     legend: {
       show: true,
       data: accidentTypes.value.map(item => item.name),

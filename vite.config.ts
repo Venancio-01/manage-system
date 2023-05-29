@@ -31,11 +31,17 @@ export default defineConfig({
   ],
   server: {
     port: 5174,
+    host: '0.0.0.0',
     proxy: {
       '/api': {
-        target: 'http://192.168.112.64:80/api',
-        changeOrigin: true
-        // rewrite: path => path.replace(/^\/api/, '')
+        target: 'http://192.168.112.64:8080/msd/api',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
+      },
+      '/file': {
+        target: 'http://192.168.112.64:8080/msd',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/file/, '')
       }
     }
   }
